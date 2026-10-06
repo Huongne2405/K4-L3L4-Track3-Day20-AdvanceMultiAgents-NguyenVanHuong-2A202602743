@@ -6,10 +6,16 @@ Chạy thật:   python -m lab.runner --condition baseline --tasks learn
 """
 import argparse
 import json
+import shutil
+import tempfile
+import time
+from datetime import datetime, timezone
 from pathlib import Path
 
+from langchain_core.callbacks import UsageMetadataCallbackHandler
 from langchain_core.messages import AIMessage, ToolMessage
 
+from .agent import build_agent
 from .grading import grade                                                      # có sẵn
 from .tasks import ROOT, get_task, hash_dir, list_tasks, prepare_sandbox         # có sẵn
 
@@ -65,7 +71,75 @@ def run_task(task_id: str, condition: str, results_dir="results", model=None, re
     Lỗi khi chạy tác tử KHÔNG được làm chương trình dừng: ghi vào `error` và vẫn chấm điểm.
     Sandbox là thư mục tạm NGOÀI kho mã nguồn và phải được xóa sau khi chạy.
     """
-    raise NotImplementedError("TODO 1: cài đặt run_task (xem guides/pseudocode/03_runner.md)")
+    cfg = CONDITIONS[condition]
+    task = get_task(task_id)
+    skills_dir = ROOT / cfg["skills_dir"] if cfg["skills_dir"] else None
+    out = Path(results_dir) / condition / task_id
+    out.mkdir(parents=True, exist_ok=True)
+    # An explicit system temp directory keeps the copy outside the repository,
+    # even if TMPDIR was set to a directory inside the project.
+    sandbox = Path(tempfile.mkdtemp(prefix="lab-", dir="/tmp"))
+    record = {
+        "task": task_id, "condition": condition, "role": task.role,
+        "timestamp": datetime.now(timezone.utc).isoformat(), "error": None,
+        "seconds": 0.0, "final_message": "",
+    }
+    messages = []
+    usage = UsageMetadataCallbackHandler()
+    before = hash_dir(sandbox / "skills")
+    started = None
+    try:
+        try:
+            prepare_sandbox(task, sandbox, skills_dir)
+            before = hash_dir(sandbox / "skills")
+            agent = build_agent(
+                sandbox, mode=cfg["mode"], use_skills=skills_dir is not None, model=model,
+            )
+            started = time.perf_counter()
+            # Retain the last emitted state if an API or recursion error interrupts
+            # execution, so the trace and main-thread counts still reflect progress.
+            for result in agent.stream(
+                {"messages": [{"role": "user", "content": task.instruction}]},
+                config={"callbacks": [usage], "recursion_limit": recursion_limit},
+                stream_mode="values",
+            ):
+                messages = result["messages"]
+            record["final_message"] = messages[-1].content if messages else ""
+        except Exception as exc:
+            record["error"] = f"{type(exc).__name__}: {exc}"
+        finally:
+            if started is not None:
+                record["seconds"] = round(time.perf_counter() - started, 1)
+
+        record["skills_sha256"] = before
+        record["skills_modified"] = hash_dir(sandbox / "skills") != before
+        record["tokens"] = {
+            key: sum(item.get(token_key, 0) for item in usage.usage_metadata.values())
+            for key, token_key in (("input", "input_tokens"), ("output", "output_tokens"), ("total", "total_tokens"))
+        }
+        calls = [call for message in messages if isinstance(message, AIMessage) for call in message.tool_calls]
+        record["tool_calls"] = len(calls)
+        record["subagent_calls"] = sum(call["name"] == "task" for call in calls)
+        read_skills = set()
+        for call in calls:
+            if call["name"] == "read_file":
+                parts = str(call.get("args", {}).get("file_path", "")).split("/")
+                if "skills" in parts:
+                    index = parts.index("skills") + 1
+                    if index < len(parts) and parts[index] not in {"", ".", ".."}:
+                        read_skills.add(parts[index])
+        record["skills_read"] = len(read_skills)
+        graded = grade(task, sandbox / "workspace")
+        # Keep model errors if the checker also failed, rather than overwriting them.
+        checker_error = graded.pop("error", None)
+        record.update(graded)
+        if checker_error:
+            record["error"] = "; ".join(filter(None, (record["error"], f"Grading: {checker_error}")))
+        (out / "trace.md").write_text(render_trace(messages), encoding="utf-8")
+        (out / "run.json").write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    finally:
+        shutil.rmtree(sandbox)
+    return record
 
 
 def main(argv=None):
