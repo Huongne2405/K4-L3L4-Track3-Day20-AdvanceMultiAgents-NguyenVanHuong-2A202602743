@@ -1,0 +1,95 @@
+{
+  "cooldown_seconds": 35,
+  "events": [
+    {
+      "timestamp": "2026-10-06T10:01:49.201239+00:00",
+      "condition": "subagents",
+      "task": "code-eval",
+      "attempt": 1,
+      "error": null,
+      "passed": 6,
+      "total": 11,
+      "tokens": 34796
+    },
+    {
+      "timestamp": "2026-10-06T10:02:30.811496+00:00",
+      "condition": "subagents",
+      "task": "data-eval",
+      "attempt": 1,
+      "error": null,
+      "passed": 0,
+      "total": 9,
+      "tokens": 5626
+    },
+    {
+      "timestamp": "2026-10-06T10:03:10.645511+00:00",
+      "condition": "subagents",
+      "task": "logs-eval",
+      "attempt": 1,
+      "error": null,
+      "passed": 0,
+      "total": 10,
+      "tokens": 11798
+    },
+    {
+      "timestamp": "2026-10-06T10:10:26.573653+00:00",
+      "condition": "skills-auto",
+      "task": "code-eval",
+      "attempt": 1,
+      "error": "GraphRecursionError: Recursion limit of 60 reached without hitting a stop condition. You can increase the limit by setting the `recursion_limit` config key.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langgraph/errors/GRAPH_RECURSION_LIMIT",
+      "passed": 4,
+      "total": 11,
+      "tokens": 231047
+    },
+    {
+      "timestamp": "2026-10-06T10:16:58.458795+00:00",
+      "condition": "skills-auto",
+      "task": "code-learn",
+      "attempt": 1,
+      "error": null,
+      "passed": 4,
+      "total": 10,
+      "tokens": 179353
+    },
+    {
+      "timestamp": "2026-10-06T10:20:06.912854+00:00",
+      "condition": "skills-auto",
+      "task": "data-eval",
+      "attempt": 1,
+      "error": null,
+      "passed": 5,
+      "total": 9,
+      "tokens": 97643
+    },
+    {
+      "timestamp": "2026-10-06T10:21:22.857680+00:00",
+      "condition": "skills-auto",
+      "task": "data-learn",
+      "attempt": 1,
+      "error": null,
+      "passed": 2,
+      "total": 8,
+      "tokens": 35723
+    },
+    {
+      "timestamp": "2026-10-06T10:23:02.977466+00:00",
+      "condition": "skills-auto",
+      "task": "logs-eval",
+      "attempt": 1,
+      "error": null,
+      "passed": 4,
+      "total": 10,
+      "tokens": 50241
+    },
+    {
+      "timestamp": "2026-10-06T10:24:09.909815+00:00",
+      "condition": "skills-auto",
+      "task": "logs-learn",
+      "attempt": 1,
+      "error": null,
+      "passed": 1,
+      "total": 9,
+      "tokens": 32799
+    }
+  ]
+}

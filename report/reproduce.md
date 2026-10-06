@@ -34,4 +34,6 @@ Các lệnh phải chạy tuần tự vì tài khoản thí nghiệm có giới 
 
 Không chạy curator lại vào `skills/auto/` trên bản đã đóng băng. Muốn lặp toàn bộ quá trình học–curator–freeze, dùng một bản clone riêng chưa có tag `freeze`, giữ nguyên test/tác vụ và đi theo `GUIDE.md`.
 
-Các phiên bản phụ thuộc thực tế được lưu trong `requirements-lock.txt`; dòng `-e .` cài mã của repo đang đứng. Tag `freeze` chốt bộ skill, còn commit kết quả cuối bổ sung báo cáo và các lần đánh giá. `execution-log.json` ghi các sự kiện và lần lỗi hạ tầng. Không có số liệu giả hoặc kết quả của ScriptedChatModel trong tập kết quả chính.
+Các phiên bản phụ thuộc thực tế được lưu trong `requirements-lock.txt`; dòng `-e .` cài mã của repo đang đứng. Tag `freeze` chốt bộ skill; báo cáo cuối và các lần đánh giá đang nằm trong working tree, chưa commit theo yêu cầu của người dùng. `execution-log.json` ghi các sự kiện và lần lỗi hạ tầng. Không có số liệu giả hoặc kết quả của ScriptedChatModel trong tập kết quả chính.
+
+`python report/run_official.py` tiếp tục các lượt chính thức còn thiếu: giữ kết quả đã có (kể cả điểm 0 và `GraphRecursionError`), chờ 35 giây trước mỗi lượt và chỉ lưu riêng/chạy lại lỗi quota tối đa 3 lần. Script không ghi git hoặc thay skill. Thử thách 6c tái lập bằng `python report/curator_redteam.py`, không có API.

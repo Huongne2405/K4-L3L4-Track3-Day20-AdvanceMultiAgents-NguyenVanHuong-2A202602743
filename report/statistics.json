@@ -1,0 +1,134 @@
+{
+  "baseline": {
+    "learn": {
+      "runs": 3,
+      "mean_score": 0.17037037037037037,
+      "mean_tokens": 32165.333333333332,
+      "total_tokens": 96496,
+      "mean_seconds": 40.16666666666667,
+      "technical_passed": 5,
+      "technical_total": 18,
+      "rules_passed": 0,
+      "rules_total": 9,
+      "skill_read_runs": 0,
+      "subagent_calls": 0,
+      "score_per_1000_tokens": 0.00529670775069548
+    },
+    "eval": {
+      "runs": 3,
+      "mean_score": 0.21212121212121213,
+      "mean_tokens": 46322.333333333336,
+      "total_tokens": 138967,
+      "mean_seconds": 49.33333333333333,
+      "technical_passed": 7,
+      "technical_total": 18,
+      "rules_passed": 0,
+      "rules_total": 12,
+      "skill_read_runs": 0,
+      "subagent_calls": 1,
+      "score_per_1000_tokens": 0.004579242815658655
+    },
+    "all": {
+      "runs": 6,
+      "mean_score": 0.19124579124579125,
+      "mean_tokens": 39243.833333333336,
+      "total_tokens": 235463,
+      "mean_seconds": 44.75,
+      "technical_passed": 12,
+      "technical_total": 36,
+      "rules_passed": 0,
+      "rules_total": 21,
+      "skill_read_runs": 0,
+      "subagent_calls": 1,
+      "score_per_1000_tokens": 0.004873269887306063
+    }
+  },
+  "subagents": {
+    "learn": {
+      "runs": 3,
+      "mean_score": 0.2333333333333333,
+      "mean_tokens": 46955.666666666664,
+      "total_tokens": 140867,
+      "mean_seconds": 70.33333333333333,
+      "technical_passed": 7,
+      "technical_total": 18,
+      "rules_passed": 0,
+      "rules_total": 9,
+      "skill_read_runs": 0,
+      "subagent_calls": 2,
+      "score_per_1000_tokens": 0.004969226291466419
+    },
+    "eval": {
+      "runs": 3,
+      "mean_score": 0.1818181818181818,
+      "mean_tokens": 17406.666666666668,
+      "total_tokens": 52220,
+      "mean_seconds": 14.066666666666666,
+      "technical_passed": 6,
+      "technical_total": 18,
+      "rules_passed": 0,
+      "rules_total": 12,
+      "skill_read_runs": 0,
+      "subagent_calls": 1,
+      "score_per_1000_tokens": 0.010445318756310712
+    },
+    "all": {
+      "runs": 6,
+      "mean_score": 0.20757575757575755,
+      "mean_tokens": 32181.166666666668,
+      "total_tokens": 193087,
+      "mean_seconds": 42.2,
+      "technical_passed": 13,
+      "technical_total": 36,
+      "rules_passed": 0,
+      "rules_total": 21,
+      "skill_read_runs": 0,
+      "subagent_calls": 3,
+      "score_per_1000_tokens": 0.006450224745604548
+    }
+  },
+  "skills-auto": {
+    "learn": {
+      "runs": 3,
+      "mean_score": 0.2537037037037037,
+      "mean_tokens": 82625.0,
+      "total_tokens": 247875,
+      "mean_seconds": 122.6,
+      "technical_passed": 7,
+      "technical_total": 18,
+      "rules_passed": 0,
+      "rules_total": 9,
+      "skill_read_runs": 2,
+      "subagent_calls": 0,
+      "score_per_1000_tokens": 0.0030705440690312097
+    },
+    "eval": {
+      "runs": 3,
+      "mean_score": 0.43973063973063975,
+      "mean_tokens": 126310.33333333333,
+      "total_tokens": 378931,
+      "mean_seconds": 206.23333333333335,
+      "technical_passed": 13,
+      "technical_total": 18,
+      "rules_passed": 0,
+      "rules_total": 12,
+      "skill_read_runs": 2,
+      "subagent_calls": 0,
+      "score_per_1000_tokens": 0.0034813512729017135
+    },
+    "all": {
+      "runs": 6,
+      "mean_score": 0.34671717171717176,
+      "mean_tokens": 104467.66666666667,
+      "total_tokens": 626806,
+      "mean_seconds": 164.41666666666666,
+      "technical_passed": 20,
+      "technical_total": 36,
+      "rules_passed": 0,
+      "rules_total": 21,
+      "skill_read_runs": 4,
+      "subagent_calls": 0,
+      "score_per_1000_tokens": 0.003318894570733258
+    }
+  }
+}
